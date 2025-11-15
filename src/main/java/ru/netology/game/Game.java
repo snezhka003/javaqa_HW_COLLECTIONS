@@ -1,38 +1,38 @@
 package ru.netology.game;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game {
-    private ArrayList<Player> players = new ArrayList<>();
+    HashMap<String, Integer> players = new HashMap<>();
 
     public void register (Player player) {
-        players.add(player);
+        players.put(player.getName(), player.getStrength());
     }
 
     public int round (String playerName1, String playerName2) {
-        Player player1 = null;
-        Player player2 = null;
+        Integer player1 = null;
+        Integer player2 = null;
 
-        for (Player player : players) {
-            if (player.getName().equals(playerName1)) {
-                player1 = player;
+        for (String key : players.keySet()) {
+            if (players.containsKey(playerName1)) {
+                player1 = players.get(playerName1);
             }
-            if (player.getName().equals(playerName2)) {
-                player2 = player;
+            if (players.containsKey(playerName2)) {
+                player2 = players.get(playerName2);
             }
         }
 
-        if (player1 == null) {
+        if (!players.containsKey(playerName1)) {
             throw new NotRegisteredException("Игрок " + playerName1 + " не зарегистрирован!");
         }
-        if (player2 == null) {
+        if (!players.containsKey(playerName2)) {
             throw new NotRegisteredException("Игрок " + playerName2 + " не зарегистрирован!");
         }
 
-        if (player1.getStrength() == player2.getStrength()) {
+        if (player1 == player2) {
             return 0;
         }
-        if (player1.getStrength() > player2.getStrength()) {
+        if (player1 > player2) {
             return 1;
         } else {
             return 2;
